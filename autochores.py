@@ -54,12 +54,17 @@ def main(argv):
         recipient_emails.append(item.strip())
   
   # Subject and Body
-  email_subject = week_start.strftime('%A, %B %-d - Keats Chores')
+  if force:
+    message_day = today
+    message += '\nChores will rotate again on Sunday.'
+  else:
+    message_day = week_start
+  email_subject = message_day.strftime('%A, %B %-d - Keats Chores')
 
   email_body = f'''
-  <b>{names[0]:\u00A0<7}</b> - {chores[rotation]}
-  <b>{names[1]:\u00A0<8}</b> - {chores[rotation + 1]}
-  <b>{names[2]:\u00A0<7}</b> - {chores[rotation + 2]}
+  <b>{names[0]:\u00A0<7}</b> - {chores[rotation % len(chores)]}
+  <b>{names[1]:\u00A0<8}</b> - {chores[(rotation + 1) % len(chores)]}
+  <b>{names[2]:\u00A0<7}</b> - {chores[(rotation + 2) % len(chores)]}
 
   {message}
   '''
@@ -79,7 +84,8 @@ def main(argv):
     'body': email_body
   }
 
-  send(sender_info, recipient_emails, email_content)
+  print_message(email_subject, email_body)
+  # send(sender_info, recipient_emails, email_content)
 
 
 def print_message(subject : str, body : str):

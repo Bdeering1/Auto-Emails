@@ -1,0 +1,5 @@
+dotenv==0.9.9
+Encryption==0.0.1
+mpmath==1.3.0
+python-dotenv==1.1.0
+sympy==1.14.0
